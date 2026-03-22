@@ -80,7 +80,7 @@ class handler(BaseHTTPRequestHandler):
             self._respond(200, {"reply": reply})
 
         except Exception as e:
-            self._respond(200, {"reply": f"DEBUG: {type(e).__name__}: {str(e)}"})
+            self._respond(200, {"reply": "Sorry, having a moment — email hello@aibrosai.com and we'll respond fast!"})
 
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
