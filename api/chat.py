@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler
-from anthropic import Anthropic
 import json
 import os
+import urllib.request
 
 SYSTEM_PROMPT = """You are the AI assistant for AIBros.io — a company that builds done-for-you AI agents for businesses.
 
@@ -56,18 +56,31 @@ class handler(BaseHTTPRequestHandler):
                 self._respond(400, {"error": "No messages"})
                 return
 
-            client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-            response = client.messages.create(
-                model="claude-haiku-4-5-20251001",
-                max_tokens=350,
-                system=SYSTEM_PROMPT,
-                messages=messages,
+            api_key = os.environ["ANTHROPIC_API_KEY"]
+            payload = json.dumps({
+                "model": "claude-haiku-4-5-20251001",
+                "max_tokens": 350,
+                "system": SYSTEM_PROMPT,
+                "messages": messages,
+            }).encode()
+
+            req = urllib.request.Request(
+                "https://api.anthropic.com/v1/messages",
+                data=payload,
+                headers={
+                    "Content-Type": "application/json",
+                    "x-api-key": api_key,
+                    "anthropic-version": "2023-06-01",
+                },
+                method="POST",
             )
-            reply = response.content[0].text
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                result = json.loads(resp.read().decode())
+            reply = result["content"][0]["text"]
             self._respond(200, {"reply": reply})
 
         except Exception as e:
-            self._respond(200, {"reply": f"DEBUG ERROR: {type(e).__name__}: {str(e)}"})
+            self._respond(200, {"reply": f"DEBUG: {type(e).__name__}: {str(e)}"})
 
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -82,4 +95,4 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(data).encode())
 
     def log_message(self, *args):
-        pass  # suppress default access logs
+        pass
