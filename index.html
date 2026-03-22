@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AIBros.io — Done-for-you AI agents for businesses. Lead follow-up, WhatsApp ordering bots, trading bots, and more." />
+  <title>AIBros.io — AI Agents for Your Business</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080810;
+      --bg2: #0f0f1a;
+      --card: #13131e;
+      --border: #ffffff10;
+      --border-hover: #7c5cfc55;
+      --accent: #7c5cfc;
+      --accent2: #5ce0fc;
+      --accent-glow: rgba(124,92,252,0.25);
+      --text: #eeeef8;
+      --muted: #7878a0;
+      --radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(8,8,16,0.80);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { font-size: 0.9rem; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    nav a.btn-nav {
+      background: var(--accent); color: #fff;
+      padding: 9px 22px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 600;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    nav a.btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
+    @media (max-width: 700px) { .nav-links { display: none; } nav { padding: 16px 20px; } }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.16) 0%, transparent 65%);
+      pointer-events: none; animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center; max-width: 1080px; width: 100%;
+    }
+    @media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; text-align: center; } .hero-visual { display: none; } }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.28);
+      color: #bbaeff; padding: 5px 14px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 500; margin-bottom: 24px;
+    }
+    .badge-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; letter-spacing: -1.5px;
+      line-height: 1.08; margin-bottom: 22px;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; max-width: 480px; }
+    @media (max-width: 860px) { .hero-sub { margin: 0 auto 40px; } }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 860px) { .hero-btns { justify-content: center; } }
+
+    /* hero chat mockup */
+    .hero-visual {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 24px; font-size: 0.85rem;
+      box-shadow: 0 0 80px rgba(124,92,252,0.12);
+    }
+    .mock-bar {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 20px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mock-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .mock-name { font-weight: 700; font-size: 0.9rem; }
+    .mock-status { font-size: 0.75rem; color: #5cfc8a; }
+    .mock-msgs { display: flex; flex-direction: column; gap: 10px; }
+    .msg { padding: 10px 14px; border-radius: 12px; max-width: 85%; font-size: 0.82rem; line-height: 1.4; }
+    .msg-user { background: rgba(124,92,252,0.2); border: 1px solid rgba(124,92,252,0.2); align-self: flex-end; }
+    .msg-agent { background: var(--bg2); border: 1px solid var(--border); align-self: flex-start; }
+    .msg-agent strong { color: var(--accent2); }
+    .msg-time { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      padding: 13px 28px; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 600;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 28px var(--accent-glow);
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 0 40px var(--accent-glow); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; letter-spacing: 2.5px;
+      font-size: 0.72rem; color: var(--accent); font-weight: 700;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800; letter-spacing: -0.8px;
+      margin-bottom: 14px; line-height: 1.12;
+    }
+    .section-sub {
+      color: var(--muted); font-size: 1.02rem;
+      max-width: 520px; margin-bottom: 52px;
+    }
+
+    /* ── STATS ── */
+    .stats { padding: 0; }
+    .stats-inner {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 640px) { .stats-inner { grid-template-columns: repeat(2, 1fr); } }
+    .stat-item {
+      padding: 32px 24px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-size: 2rem; font-weight: 800; letter-spacing: -1px; color: var(--text); }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── PROBLEM ── */
+    .problem { background: var(--bg2); }
+    .problem-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+    .problem-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .problem-card .icon { font-size: 1.8rem; margin-bottom: 14px; }
+    .problem-card h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 8px; }
+    .problem-card p { color: var(--muted); font-size: 0.88rem; }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .service-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 30px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .service-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(124,92,252,0.1);
+    }
+    .service-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      background: rgba(124,92,252,0.12); border: 1px solid rgba(124,92,252,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; margin-bottom: 18px;
+    }
+    .service-card h3 { font-size: 1.08rem; font-weight: 700; margin-bottom: 10px; }
+    .service-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; line-height: 1.55; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag {
+      background: rgba(124,92,252,0.08); border: 1px solid rgba(124,92,252,0.18);
+      color: #b0a0ff; padding: 3px 11px; border-radius: 999px; font-size: 0.76rem;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--bg2); }
+    .steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 52px; position: relative;
+    }
+    @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+    .step { text-align: center; padding: 0 24px; position: relative; }
+    .step:not(:last-child)::after {
+      content: "→"; position: absolute; right: -12px; top: 14px;
+      color: var(--muted); font-size: 1.2rem;
+    }
+    @media (max-width: 640px) { .step:not(:last-child)::after { display: none; } }
+    .step-num {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem; font-weight: 800; margin: 0 auto 18px;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: 0.88rem; }
+
+    /* ── BUILT ── */
+    .built-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+    .built-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 26px;
+      display: flex; flex-direction: column; gap: 8px;
+      transition: border-color 0.2s;
+    }
+    .built-card:hover { border-color: var(--border-hover); }
+    .built-card .biz {
+      font-size: 0.72rem; color: var(--accent); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+    }
+    .built-card h3 { font-size: 0.98rem; font-weight: 700; }
+    .built-card p { color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+
+    /* ── PRICING ── */
+    .pricing { background: var(--bg2); }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .price-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px;
+      display: flex; flex-direction: column; gap: 0;
+      position: relative; transition: border-color 0.2s, transform 0.2s;
+    }
+    .price-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    .price-card.featured {
+      border-color: rgba(124,92,252,0.5);
+      box-shadow: 0 0 40px rgba(124,92,252,0.12);
+    }
+    .featured-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff;
+      padding: 3px 14px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+      white-space: nowrap;
+    }
+    .price-name { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+    .price-amount { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+    .price-amount span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .price-desc { color: var(--muted); font-size: 0.88rem; margin-bottom: 28px; margin-top: 8px; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; flex: 1; }
+    .price-features li { font-size: 0.88rem; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; }
+    .price-features li::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .price-btn {
+      display: block; text-align: center;
+      padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.92rem;
+      transition: all 0.2s;
+    }
+    .price-btn-ghost { border: 1px solid var(--border); color: var(--text); }
+    .price-btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .price-btn-solid { background: var(--accent); color: #fff; }
+    .price-btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+    .faq-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .faq-q {
+      padding: 20px 24px; font-weight: 600; font-size: 0.95rem;
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+    }
+    .faq-q::after { content: "+"; color: var(--accent); font-size: 1.3rem; transition: transform 0.2s; }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: var(--muted); font-size: 0.9rem; padding: 0 24px;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
+
+    /* ── CTA ── */
+    .cta-section {
+      position: relative; text-align: center; overflow: hidden;
+      background: linear-gradient(160deg, rgba(124,92,252,0.12) 0%, rgba(92,224,252,0.06) 100%);
+      border-top: 1px solid var(--border);
+    }
+    .cta-section::before {
+      content: ""; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 { max-width: 580px; margin: 0 auto 14px; }
+    .cta-section p { color: var(--muted); margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 24px; text-align: center;
+      color: var(--muted); font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AI<span>Bros</span>.io</div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="mailto:hello@aibros.io" class="btn-nav">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner container">
+    <div class="hero-text">
+      <div class="badge reveal"><span class="badge-dot"></span> Done-for-you AI agents</div>
+      <h1 class="reveal reveal-delay-1">Your business, running on <span class="grad">autopilot</span></h1>
+      <p class="hero-sub reveal reveal-delay-2">We build custom AI agents that handle lead follow-up, customer orders, trading, and automation — 24/7, from any channel.</p>
+      <div class="hero-btns reveal reveal-delay-3">
+        <a href="mailto:hello@aibros.io" class="btn btn-primary">Book a Free Call</a>
+        <a href="#services" class="btn btn-ghost">See What We Build</a>
+      </div>
+    </div>
+
+    <!-- Chat mockup -->
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="mock-bar">
+        <div class="mock-avatar">🤖</div>
+        <div>
+          <div class="mock-name">MyAgent Bot</div>
+          <div class="mock-status">● Online 24/7</div>
+        </div>
+      </div>
+      <div class="mock-msgs">
+        <div class="msg msg-user">New lead just came in — Sarah M. from Dallas</div>
+        <div class="msg-time" style="text-align:right;font-size:0.7rem;color:var(--muted)">11:47 PM</div>
+
+        <div class="msg msg-agent"><strong>Agent:</strong> On it. Sent intro email, asked 3 qualifying questions. Awaiting reply.</div>
+        <div class="msg-time" style="font-size:0.7rem;color:var(--muted)">11:47 PM · 8 seconds later</div>
+
+        <div class="msg msg-user">Did she reply?</div>
+
+        <div class="msg msg-agent"><strong>Agent:</strong> Yes — she's pre-qualified. Budget $650k, timeline 60 days. Calendar invite sent for tomorrow 10am.</div>
+        <div class="msg-time" style="font-size:0.7rem;color:var(--muted)">11:52 PM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num">7<span>+</span></div>
+      <div class="stat-label">AI agents built</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label">Industries served</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num">24<span>/7</span></div>
+      <div class="stat-label">Always running</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num" style="font-size:1.5rem">Days</div>
+      <div class="stat-label">Not months to deploy</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label reveal">The Problem</div>
+    <h2 class="reveal">You're losing business while you sleep</h2>
+    <p class="section-sub reveal">Most businesses miss leads, orders, and customers simply because no one is available to respond instantly.</p>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="icon">🕙</div>
+        <h3>After-hours leads vanish</h3>
+        <p>A lead fills out your form at 10pm. You reply at 9am. They already signed with someone else.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-1">
+        <div class="icon">📱</div>
+        <h3>Customers expect instant replies</h3>
+        <p>If you don't respond in 5 minutes, 80% of prospects move on. No one has time to babysit a phone.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <div class="icon">🔁</div>
+        <h3>Manual work that never ends</h3>
+        <p>Follow-ups, order confirmations, appointment reminders — all done by hand, every single day.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-3">
+        <div class="icon">💸</div>
+        <h3>Hiring is expensive</h3>
+        <p>You can't afford a 24/7 team. But your customers expect 24/7 availability. AI bridges the gap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-label reveal">What We Build</div>
+    <h2 class="reveal">AI agents for every part of your business</h2>
+    <p class="section-sub reveal">We build, deploy, and manage AI agents tailored to your business — no technical knowledge required.</p>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon">⚡</div>
+        <h3>AI Lead Follow-Up</h3>
+        <p>Instant reply the moment a lead comes in. Qualifies prospects, answers questions, and books calls — automatically, day or night.</p>
+        <div class="tag-list">
+          <span class="tag">Real Estate</span><span class="tag">Any Business</span><span class="tag">24/7</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">💬</div>
+        <h3>WhatsApp & SMS Bots</h3>
+        <p>AI agents that handle customer orders, bookings, and inquiries directly in WhatsApp or SMS — no app download needed.</p>
+        <div class="tag-list">
+          <span class="tag">Restaurants</span><span class="tag">Salons</span><span class="tag">Retail</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🌐</div>
+        <h3>Website Modernization</h3>
+        <p>We audit your site for outdated signals hurting your SEO and conversions, then modernize it and add an AI chat layer.</p>
+        <div class="tag-list">
+          <span class="tag">SEO</span><span class="tag">AI Chat</span><span class="tag">Mobile</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">📈</div>
+        <h3>Personalised Trading Bots</h3>
+        <p>Custom algorithmic trading bots built around your strategy — gap trading, options, 0DTE, or any approach. Backtested and deployed with real-time monitoring.</p>
+        <div class="tag-list">
+          <span class="tag">Stocks</span><span class="tag">Options</span><span class="tag">Algorithmic</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">🤖</div>
+        <h3>Custom AI Automation</h3>
+        <p>Got a repetitive workflow eating your time? We build custom AI agents that run it automatically — reports, outreach, data, anything.</p>
+        <div class="tag-list">
+          <span class="tag">Any Workflow</span><span class="tag">Custom</span><span class="tag">Done-for-you</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">📲</div>
+        <h3>Agent Control Panel</h3>
+        <p>Monitor, approve, and control all your AI agents from your phone via Telegram. See what they're doing and intervene anytime.</p>
+        <div class="tag-list">
+          <span class="tag">Developers</span><span class="tag">Teams</span><span class="tag">Mobile</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">📧</div>
+        <h3>Outreach Automation</h3>
+        <p>AI-powered cold outreach that researches prospects, personalizes emails, and follows up automatically until you get a reply.</p>
+        <div class="tag-list">
+          <span class="tag">B2B</span><span class="tag">Sales</span><span class="tag">Automated</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="reveal">Up and running in days, not months</h2>
+    <p class="section-sub reveal">No long contracts, no enterprise complexity. We move fast.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Free discovery call</h3>
+        <p>We learn your business, your bottlenecks, and which AI agent will make the biggest difference immediately.</p>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <h3>We build it</h3>
+        <p>Custom AI agent built and tested in days. You see it working before anything goes live.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <h3>Deploy & monitor</h3>
+        <p>We deploy, monitor performance, and handle any issues. You just watch it run.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE'VE BUILT -->
+<section id="work">
+  <div class="container">
+    <div class="section-label reveal">Real Work</div>
+    <h2 class="reveal">Things we've already built</h2>
+    <p class="section-sub reveal">Every agent we offer has been built and tested in the real world — not a demo, not a prototype.</p>
+    <div class="built-grid">
+      <div class="built-card reveal">
+        <div class="biz">Restaurant</div>
+        <h3>WhatsApp Ordering Bot</h3>
+        <p>Full order flow — quantity, payment, owner confirmation, pickup address. Zero human involvement.</p>
+      </div>
+      <div class="built-card reveal reveal-delay-1">
+        <div class="biz">Real Estate</div>
+        <h3>Lead Follow-Up Agent</h3>
+        <p>Instant reply the second a lead comes in. Qualifies, personalizes, follows up day 3 and day 7 automatically.</p>
+      </div>
+      <div class="built-card reveal reveal-delay-2">
+        <div class="biz">Any Business</div>
+        <h3>Website Audit + Outreach</h3>
+        <p>Scans websites for outdated signals, takes screenshots, sends personalized outreach emails with proof attached.</p>
+      </div>
+      <div class="built-card reveal">
+        <div class="biz">Developers / Teams</div>
+        <h3>Agent Control Panel</h3>
+        <p>Control any AI agent from your phone via Telegram. Approve actions, see live status, manage from anywhere.</p>
+      </div>
+      <div class="built-card reveal reveal-delay-1">
+        <div class="biz">Trading</div>
+        <h3>Algorithmic Trading Bots</h3>
+        <p>Gap trading, 0DTE options, dynamic condors — fully automated with real-time stop management and Monte Carlo backtesting.</p>
+      </div>
+      <div class="built-card reveal reveal-delay-2">
+        <div class="biz">Bakery / Retail</div>
+        <h3>WhatsApp Pre-Order Bot</h3>
+        <p>Handles pre-orders, sold-out flow, inventory management, and payment confirmation — owner runs the whole thing from WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing">
+  <div class="container">
+    <div class="section-label reveal">Pricing</div>
+    <h2 class="reveal">Simple, transparent pricing</h2>
+    <p class="section-sub reveal">One-time setup + low monthly to keep it running. No surprise fees.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card reveal">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">$299 <span>setup</span></div>
+        <div class="price-desc">+ $99/mo · Best for small businesses getting started</div>
+        <ul class="price-features">
+          <li>1 AI agent (your choice of service)</li>
+          <li>WhatsApp, SMS, or email channel</li>
+          <li>Setup + configuration</li>
+          <li>1 month of monitoring included</li>
+          <li>Email support</li>
+        </ul>
+        <a href="mailto:hello@aibros.io" class="price-btn price-btn-ghost">Get Started</a>
+      </div>
+
+      <div class="price-card featured reveal reveal-delay-1">
+        <div class="featured-badge">Most Popular</div>
+        <div class="price-name">Growth</div>
+        <div class="price-amount">$499 <span>setup</span></div>
+        <div class="price-desc">+ $199/mo · For businesses ready to automate multiple workflows</div>
+        <ul class="price-features">
+          <li>Up to 3 AI agents</li>
+          <li>All channels (WhatsApp, SMS, email, Telegram)</li>
+          <li>Lead follow-up + outreach automation</li>
+          <li>Website audit included</li>
+          <li>Priority support + monthly check-in</li>
+        </ul>
+        <a href="mailto:hello@aibros.io" class="price-btn price-btn-solid">Get Started</a>
+      </div>
+
+      <div class="price-card reveal reveal-delay-2">
+        <div class="price-name">Custom</div>
+        <div class="price-amount" style="font-size:1.8rem">Let's talk</div>
+        <div class="price-desc">Trading bots, complex automation, or full AI infrastructure build-out</div>
+        <ul class="price-features">
+          <li>Algorithmic trading bots (backtested + deployed)</li>
+          <li>Custom AI agent pipelines</li>
+          <li>Dedicated support</li>
+          <li>Ongoing optimization</li>
+          <li>Full source code ownership</li>
+        </ul>
+        <a href="mailto:hello@aibros.io" class="price-btn price-btn-ghost">Contact Us</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label reveal">FAQ</div>
+    <h2 class="reveal">Common questions</h2>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q">Do I need any technical knowledge?</div>
+        <div class="faq-a">None at all. We handle everything — setup, deployment, and monitoring. You just tell us what you need automated and we build it.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How long does it take to get an agent running?</div>
+        <div class="faq-a">Most agents are live within 3–5 business days. More complex builds like trading bots take 1–2 weeks depending on the strategy.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">What happens if something breaks?</div>
+        <div class="faq-a">We monitor all agents and fix issues as part of the monthly plan. You'll never be left debugging something on your own.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Can I see the agent working before I pay?</div>
+        <div class="faq-a">Yes. We show you a working demo before anything goes live. If it doesn't do what we promised, you don't pay for setup.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Are the trading bots connected to my real account?</div>
+        <div class="faq-a">We start with paper trading (simulated) so you can validate the strategy. Live account connection is your call once you're confident in the results.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Which AI model do the agents use?</div>
+        <div class="faq-a">We build with Claude (Anthropic), GPT-4, or local models depending on your privacy needs and budget. All options are available.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="section-label reveal">Get Started</div>
+    <h2 class="reveal">Ready to put your business on autopilot?</h2>
+    <p class="reveal">Book a free 20-minute call. We'll tell you exactly which AI agent makes sense for your business — no pitch, no pressure.</p>
+    <a href="mailto:hello@aibros.io" class="btn btn-primary reveal">Book a Free Call → hello@aibros.io</a>
+  </div>
+</section>
+
+<!-- CHAT WIDGET -->
+<div id="chat-btn" onclick="toggleChat()" title="Chat with us">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span id="chat-badge">1</span>
+</div>
+
+<div id="chat-panel">
+  <div id="chat-header">
+    <div id="chat-header-left">
+      <div id="chat-avatar">🤖</div>
+      <div>
+        <div id="chat-title">MyAgent Assistant</div>
+        <div id="chat-online">● Online now</div>
+      </div>
+    </div>
+    <button onclick="toggleChat()" id="chat-close">✕</button>
+  </div>
+
+  <div id="chat-messages">
+    <div class="chat-msg agent">
+      <div class="chat-bubble">Hey! I'm the MyAgent assistant. What can I help you with today? 👋</div>
+    </div>
+  </div>
+
+  <div id="chat-input-row">
+    <input id="chat-input" type="text" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendMsg()" />
+    <button id="chat-send" onclick="sendMsg()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 AIBros.io &nbsp;·&nbsp; <a href="mailto:hello@aibros.io">hello@aibros.io</a> &nbsp;·&nbsp; Built with AI, by humans who use it daily.</p>
+</footer>
+
+<style>
+  /* ── CHAT WIDGET ── */
+  #chat-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 24px rgba(124,92,252,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  #chat-btn:hover { transform: scale(1.1); box-shadow: 0 6px 32px rgba(124,92,252,0.65); }
+  #chat-badge {
+    position: absolute; top: -4px; right: -4px;
+    background: #fc5c5c; color: #fff; font-size: 0.7rem; font-weight: 700;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--bg);
+  }
+  #chat-badge.hidden { display: none; }
+
+  #chat-panel {
+    position: fixed; bottom: 96px; right: 28px; z-index: 998;
+    width: 360px; max-height: 520px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    transform: scale(0.9) translateY(20px); opacity: 0;
+    pointer-events: none; transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+    overflow: hidden;
+  }
+  #chat-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+  @media (max-width: 420px) { #chat-panel { width: calc(100vw - 32px); right: 16px; bottom: 84px; } }
+
+  #chat-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(124,92,252,0.2), rgba(92,224,252,0.1));
+    border-bottom: 1px solid var(--border);
+  }
+  #chat-header-left { display: flex; align-items: center; gap: 12px; }
+  #chat-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  }
+  #chat-title { font-weight: 700; font-size: 0.92rem; }
+  #chat-online { font-size: 0.72rem; color: #5cfc8a; margin-top: 1px; }
+  #chat-close {
+    background: none; border: none; color: var(--muted);
+    font-size: 1rem; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    transition: color 0.2s;
+  }
+  #chat-close:hover { color: var(--text); }
+
+  #chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    scroll-behavior: smooth;
+  }
+  #chat-messages::-webkit-scrollbar { width: 4px; }
+  #chat-messages::-webkit-scrollbar-track { background: transparent; }
+  #chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .chat-msg { display: flex; }
+  .chat-msg.user { justify-content: flex-end; }
+  .chat-bubble {
+    max-width: 82%; padding: 10px 14px; border-radius: 14px;
+    font-size: 0.87rem; line-height: 1.5;
+  }
+  .chat-msg.agent .chat-bubble {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-msg.user .chat-bubble {
+    background: var(--accent); color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: bounce 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+  #chat-input-row {
+    display: flex; gap: 8px; padding: 12px 14px;
+    border-top: 1px solid var(--border);
+  }
+  #chat-input {
+    flex: 1; background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px; color: var(--text);
+    font-size: 0.88rem; outline: none; transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  #chat-input:focus { border-color: var(--accent); }
+  #chat-input::placeholder { color: var(--muted); }
+  #chat-send {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--accent); border: none; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: opacity 0.2s; flex-shrink: 0;
+  }
+  #chat-send:hover { opacity: 0.85; }
+  #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+</style>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ── CHAT WIDGET ──
+  const CHAT_API = '/api/chat';
+  let chatOpen = false;
+  let chatHistory = [];
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-panel').classList.toggle('open', chatOpen);
+    document.getElementById('chat-badge').classList.add('hidden');
+    if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 300);
+  }
+
+  function addMsg(role, text) {
+    const div = document.createElement('div');
+    div.className = `chat-msg ${role}`;
+    div.innerHTML = `<div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+    const msgs = document.getElementById('chat-messages');
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'chat-msg agent'; div.id = 'typing-indicator';
+    div.innerHTML = `<div class="chat-bubble chat-typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+    const msgs = document.getElementById('chat-messages');
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  async function sendMsg() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    document.getElementById('chat-send').disabled = true;
+
+    addMsg('user', text);
+    chatHistory.push({ role: 'user', content: text });
+    showTyping();
+
+    try {
+      const res = await fetch(CHAT_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+      const data = await res.json();
+      removeTyping();
+
+      const reply = data.reply || 'Something went wrong — email us at hello@aibros.io';
+      addMsg('agent', reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch (e) {
+      removeTyping();
+      addMsg('agent', 'Connection error — make sure the server is running, or email us at hello@aibros.io');
+    }
+
+    document.getElementById('chat-send').disabled = false;
+    input.focus();
+  }
+</script>
+
+</body>
+</html>
