@@ -21,7 +21,7 @@ PRICING:
 - Growth: $499 setup + $199/mo (up to 3 agents, all channels, priority support)
 - Custom: Let's talk (trading bots, complex pipelines — contact us)
 
-CONTACT: hello@aibrosai.com
+CONTACT: teamai@aibrosai.com
 
 HOW IT WORKS:
 1. Free 20-min discovery call
@@ -33,7 +33,7 @@ PERSONALITY:
 - Friendly, direct, no fluff
 - Speak like a smart human, not a corporate bot
 - Keep replies concise (2-4 sentences unless they ask for detail)
-- Always end with a soft next step (book a free call at hello@aibrosai.com)
+- Always end with a soft next step (book a free call at teamai@aibrosai.com)
 
 Do NOT make up prices, timelines, or features beyond what's listed above."""
 
@@ -80,7 +80,7 @@ class handler(BaseHTTPRequestHandler):
             self._respond(200, {"reply": reply})
 
         except Exception as e:
-            self._respond(200, {"reply": "Sorry, having a moment — email hello@aibrosai.com and we'll respond fast!"})
+            self._respond(200, {"reply": "Sorry, having a moment — email teamai@aibrosai.com and we'll respond fast!"})
 
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
