@@ -3,7 +3,7 @@ import json
 import os
 import urllib.request
 
-SYSTEM_PROMPT = """You are the AI assistant for AIBros.io — a company that builds done-for-you AI agents for businesses.
+SYSTEM_PROMPT = """You are the AI assistant for AIBros.com — a company that builds done-for-you AI agents for businesses.
 
 Your job is to help visitors understand our services, answer questions, and encourage them to book a free discovery call.
 
