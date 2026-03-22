@@ -56,7 +56,7 @@ class handler(BaseHTTPRequestHandler):
                 self._respond(400, {"error": "No messages"})
                 return
 
-            api_key = os.environ["ANTHROPIC_API_KEY"]
+            api_key = os.environ["ANTHROPIC_API_KEY"].strip()
             payload = json.dumps({
                 "model": "claude-haiku-4-5-20251001",
                 "max_tokens": 350,
