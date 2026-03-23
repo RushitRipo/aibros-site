@@ -314,6 +314,18 @@
     .price-btn-solid { background: var(--accent); color: #fff; }
     .price-btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
 
+    /* ── QUOTE BLOCK ── */
+    .quote-block {
+      background: var(--card); border: 1px solid rgba(124,92,252,0.3);
+      border-radius: var(--radius); padding: 48px;
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+      max-width: 640px; margin: 0 auto; text-align: center;
+      box-shadow: 0 0 60px rgba(124,92,252,0.1);
+    }
+    .quote-points { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+    .quote-point { font-size: 1rem; color: var(--muted); text-align: left; }
+    .quote-point::first-letter { color: var(--accent); }
+
     /* ── FAQ ── */
     .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
     .faq-item {
@@ -606,57 +618,20 @@
   </div>
 </section>
 
-<!-- PRICING -->
+<!-- GET A QUOTE -->
 <section id="pricing" class="pricing">
   <div class="container">
     <div class="section-label reveal">Pricing</div>
-    <h2 class="reveal">Simple, transparent pricing</h2>
-    <p class="section-sub reveal">One-time setup + low monthly to keep it running. No surprise fees.</p>
-    <div class="pricing-grid">
-
-      <div class="price-card reveal">
-        <div class="price-name">Starter</div>
-        <div class="price-amount">$299 <span>setup</span></div>
-        <div class="price-desc">+ $99/mo · Best for small businesses getting started</div>
-        <ul class="price-features">
-          <li>1 AI agent (your choice of service)</li>
-          <li>WhatsApp, SMS, or email channel</li>
-          <li>Setup + configuration</li>
-          <li>1 month of monitoring included</li>
-          <li>Email support</li>
-        </ul>
-        <a href="mailto:teamai@aibrosai.com" class="price-btn price-btn-ghost">Get Started</a>
+    <h2 class="reveal">Every build is priced for your specific needs</h2>
+    <p class="section-sub reveal">A WhatsApp bot for a restaurant is a different job to a trading bot for an investor. We scope it, quote it, and you only pay for exactly what you need.</p>
+    <div class="quote-block reveal">
+      <div class="quote-points">
+        <div class="quote-point">✓ Free 20-min discovery call — no commitment</div>
+        <div class="quote-point">✓ We scope the exact solution for your business</div>
+        <div class="quote-point">✓ You get a clear quote before we start</div>
+        <div class="quote-point">✓ You see it working before you pay for setup</div>
       </div>
-
-      <div class="price-card featured reveal reveal-delay-1">
-        <div class="featured-badge">Most Popular</div>
-        <div class="price-name">Growth</div>
-        <div class="price-amount">$499 <span>setup</span></div>
-        <div class="price-desc">+ $199/mo · For businesses ready to automate multiple workflows</div>
-        <ul class="price-features">
-          <li>Up to 3 AI agents</li>
-          <li>All channels (WhatsApp, SMS, email, Telegram)</li>
-          <li>Lead follow-up + outreach automation</li>
-          <li>Website audit included</li>
-          <li>Priority support + monthly check-in</li>
-        </ul>
-        <a href="mailto:teamai@aibrosai.com" class="price-btn price-btn-solid">Get Started</a>
-      </div>
-
-      <div class="price-card reveal reveal-delay-2">
-        <div class="price-name">Custom</div>
-        <div class="price-amount" style="font-size:1.8rem">Let's talk</div>
-        <div class="price-desc">Trading bots, complex automation, or full AI infrastructure build-out</div>
-        <ul class="price-features">
-          <li>Algorithmic trading bots (backtested + deployed)</li>
-          <li>Custom AI agent pipelines</li>
-          <li>Dedicated support</li>
-          <li>Ongoing optimization</li>
-          <li>Full source code ownership</li>
-        </ul>
-        <a href="mailto:teamai@aibrosai.com" class="price-btn price-btn-ghost">Contact Us</a>
-      </div>
-
+      <a href="mailto:teamai@aibrosai.com" class="btn btn-primary">Get a Free Quote →</a>
     </div>
   </div>
 </section>
