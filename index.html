@@ -314,6 +314,38 @@
     .price-btn-solid { background: var(--accent); color: #fff; }
     .price-btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
 
+    /* ── ABOUT ── */
+    #about { padding: 100px 0; }
+    .about-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin: 48px 0;
+    }
+    .about-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .about-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    .about-photo {
+      width: 88px; height: 88px; border-radius: 50%;
+      background: rgba(124,92,252,0.12); border: 2px solid rgba(124,92,252,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .about-name { font-size: 1.2rem; font-weight: 700; }
+    .about-role { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; }
+    .about-bio { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-top: 8px; }
+    .about-mission {
+      background: var(--card); border: 1px solid rgba(124,92,252,0.3);
+      border-radius: var(--radius); padding: 36px;
+      display: flex; gap: 24px; align-items: flex-start;
+      box-shadow: 0 0 40px rgba(124,92,252,0.08);
+    }
+    .about-mission-icon { font-size: 2rem; flex-shrink: 0; }
+    .about-mission strong { font-size: 1rem; display: block; margin-bottom: 8px; }
+    .about-mission p { font-size: 0.92rem; color: var(--muted); line-height: 1.8; margin: 0; }
+
     /* ── QUOTE BLOCK ── */
     .quote-block {
       background: var(--card); border: 1px solid rgba(124,92,252,0.3);
@@ -378,7 +410,7 @@
   <div class="nav-links">
     <a href="#services">Services</a>
     <a href="#work">Work</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
     <a href="#faq">FAQ</a>
   </div>
   <a href="mailto:teamai@aibrosai.com" class="btn-nav">Get in Touch</a>
@@ -668,6 +700,40 @@
         <div class="faq-a">We build with Claude (Anthropic), GPT-4, or local models depending on your privacy needs and budget. All options are available.</div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label reveal">About Us</div>
+    <h2 class="reveal">35 years of IT. 3 years of AI. One mission.</h2>
+    <p class="section-sub reveal">We automate the boring tasks so you can focus on the work you actually love.</p>
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <div class="about-photo">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="about-name">Rushit</div>
+        <div class="about-role">Co-Founder</div>
+        <p class="about-bio">IT veteran with deep roots in business systems and automation. Has spent the last 3 years implementing AI agents for small businesses — from lead follow-up to custom trading bots.</p>
+      </div>
+      <div class="about-card reveal reveal-delay-1">
+        <div class="about-photo">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="about-name">Kalpit</div>
+        <div class="about-role">Co-Founder</div>
+        <p class="about-bio">Two decades of IT experience building and scaling business infrastructure. Brings a practical, no-nonsense approach to every automation — if it doesn't save time or make money, we don't build it.</p>
+      </div>
+    </div>
+    <div class="about-mission reveal">
+      <div class="about-mission-icon">💡</div>
+      <div>
+        <strong>Our Mission</strong>
+        <p>Between us we have 35 years in IT and have been building AI solutions for small businesses for the last 3 years. We started AIBros.com because we saw too many business owners drowning in repetitive tasks that should have been automated years ago. We handle the tech — you get your time back.</p>
+      </div>
     </div>
   </div>
 </section>
