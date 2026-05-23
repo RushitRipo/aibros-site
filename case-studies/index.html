@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Real AI automation projects built by AIBros — proactive chatbot, cold outreach pipeline, Reddit lead monitor." />
+  <title>Case Studies — AIBros.com</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080810; --bg2: #0f0f1a; --card: #13131e;
+      --border: #ffffff10; --border-hover: #7c5cfc55;
+      --accent: #7c5cfc; --accent2: #5ce0fc;
+      --accent-glow: rgba(124,92,252,0.25);
+      --text: #eeeef8; --muted: #7878a0; --radius: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.65; font-size: 16px; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(8,8,16,0.80); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { font-size: 0.9rem; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    nav a.btn-nav { background: var(--accent); color: #fff; padding: 9px 22px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; transition: opacity 0.2s, transform 0.2s; }
+    nav a.btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
+    @media (max-width: 700px) { .nav-links { display: none; } nav { padding: 16px 20px; } }
+
+    .btn { padding: 13px 28px; border-radius: 10px; font-size: 0.95rem; font-weight: 600; transition: all 0.2s; display: inline-block; }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 0 28px var(--accent-glow); }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 0 40px var(--accent-glow); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    section { padding: 96px 24px; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label { text-transform: uppercase; letter-spacing: 2.5px; font-size: 0.72rem; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.12; }
+    .section-sub { color: var(--muted); font-size: 1.02rem; max-width: 520px; margin-bottom: 52px; }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 160px 24px 80px;
+      position: relative; overflow: hidden; text-align: center;
+    }
+    .hero-glow {
+      position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.14) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .page-hero .section-label { margin-bottom: 16px; }
+    .page-hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 18px; }
+    .page-hero h1 .grad { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-hero p { color: var(--muted); font-size: 1.1rem; max-width: 520px; margin: 0 auto; }
+
+    /* CASE STUDY CARDS */
+    .cs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .cs-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .cs-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(124,92,252,0.1); }
+    .cs-category { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; }
+    .cs-card h3 { font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+    .cs-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; flex: 1; }
+    .cs-results { display: flex; flex-direction: column; gap: 6px; }
+    .cs-result { font-size: 0.84rem; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+    .cs-result::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .cs-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 0.9rem; font-weight: 600; margin-top: 4px; transition: gap 0.2s; }
+    .cs-link:hover { gap: 10px; }
+
+    /* CTA */
+    .cta-section {
+      position: relative; text-align: center; overflow: hidden;
+      background: linear-gradient(160deg, rgba(124,92,252,0.12) 0%, rgba(92,224,252,0.06) 100%);
+      border-top: 1px solid var(--border);
+    }
+    .cta-section::before {
+      content: ""; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 { max-width: 560px; margin: 0 auto 14px; }
+    .cta-section p { color: var(--muted); margin-bottom: 36px; max-width: 460px; margin-left: auto; margin-right: auto; }
+
+    footer { padding: 28px 24px; text-align: center; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">AI<span>Bros</span>.com</a>
+  <div class="nav-links">
+    <a href="/#services">Services</a>
+    <a href="/#work">Work</a>
+    <a href="/case-studies" class="active">Case Studies</a>
+    <a href="/#about">About</a>
+    <a href="/#faq">FAQ</a>
+  </div>
+  <a href="mailto:teamai@aibrosai.com" class="btn-nav">Get in Touch</a>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="section-label reveal">Case Studies</div>
+    <h1 class="reveal reveal-delay-1">Real work. <span class="grad">Real results.</span></h1>
+    <p class="reveal reveal-delay-2">Every agent we offer has been built and running in the real world — not a demo, not a prototype. Here's exactly what we built, how, and what it did.</p>
+  </div>
+</div>
+
+<section style="padding-top: 0;">
+  <div class="container">
+    <div class="cs-grid">
+
+      <div class="cs-card reveal">
+        <div class="cs-category">AI Chatbot</div>
+        <h3>Proactive chatbot that captures leads after hours — automatically</h3>
+        <p>Claude Haiku-powered chatbot that greets visitors before they leave, captures name, phone, and best time to call, and emails the transcript to the owner — while the team sleeps.</p>
+        <div class="cs-results">
+          <div class="cs-result">Under 2-second response time</div>
+          <div class="cs-result">$5/month to run</div>
+          <div class="cs-result">Live in production on aibrosai.com</div>
+        </div>
+        <a href="/case-studies/proactive-chatbot" class="cs-link">Read case study →</a>
+      </div>
+
+      <div class="cs-card reveal reveal-delay-1">
+        <div class="cs-category">Outreach Automation</div>
+        <h3>Instrumented cold email pipeline with A/B testing and funnel diagnostics</h3>
+        <p>End-to-end outreach machine — scrapes leads, audits their sites, personalizes emails with AI, sends via Zoho, tracks opens and replies, and reports exactly where the funnel breaks.</p>
+        <div class="cs-results">
+          <div class="cs-result">1,400+ leads in the DB</div>
+          <div class="cs-result">A/B variants tracked per lead</div>
+          <div class="cs-result">One command to read the full funnel</div>
+        </div>
+        <a href="/case-studies/cold-outreach-pipeline" class="cs-link">Read case study →</a>
+      </div>
+
+      <div class="cs-card reveal reveal-delay-2">
+        <div class="cs-category">Lead Intelligence</div>
+        <h3>Reddit monitor that finds prospects the moment they ask for your service</h3>
+        <p>Scans 7 subreddits every 2 hours for people posting the exact pain you solve. Claude drafts a helpful reply, emails it ready-to-paste, and deduplicates so you never see the same post twice.</p>
+        <div class="cs-results">
+          <div class="cs-result">Alert within 2 hours of any match</div>
+          <div class="cs-result">$5/month to run</div>
+          <div class="cs-result">Zero manual monitoring required</div>
+        </div>
+        <a href="/case-studies/reddit-lead-monitor" class="cs-link">Read case study →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="section-label reveal">Get Started</div>
+    <h2 class="reveal">Want one of these for your business?</h2>
+    <p class="reveal">Start with the $500 AI Workflow Audit — we map the 3 highest-ROI places AI fits in your business and what each one would cost to build.</p>
+    <a href="mailto:teamai@aibrosai.com?subject=Book%20%24500%20AI%20Workflow%20Audit" class="btn btn-primary reveal">Book the $500 Audit →</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 AIBros.com &nbsp;·&nbsp; <a href="mailto:teamai@aibrosai.com">teamai@aibrosai.com</a> &nbsp;·&nbsp; Built with AI, by humans who use it daily.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

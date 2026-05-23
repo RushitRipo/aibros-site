@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="How AIBros built a proactive AI chatbot that captures leads after hours — Claude Haiku, Vercel, under $5/month." />
+  <title>Case Study: Proactive AI Chatbot — AIBros.com</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080810; --bg2: #0f0f1a; --card: #13131e;
+      --border: #ffffff10; --border-hover: #7c5cfc55;
+      --accent: #7c5cfc; --accent2: #5ce0fc;
+      --accent-glow: rgba(124,92,252,0.25);
+      --text: #eeeef8; --muted: #7878a0; --radius: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.65; font-size: 16px; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(8,8,16,0.80); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { font-size: 0.9rem; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    nav a.btn-nav { background: var(--accent); color: #fff; padding: 9px 22px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; transition: opacity 0.2s, transform 0.2s; }
+    nav a.btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
+    @media (max-width: 700px) { .nav-links { display: none; } nav { padding: 16px 20px; } }
+
+    .btn { padding: 13px 28px; border-radius: 10px; font-size: 0.95rem; font-weight: 600; transition: all 0.2s; display: inline-block; }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 0 28px var(--accent-glow); }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 0 40px var(--accent-glow); }
+
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+    .section-label { text-transform: uppercase; letter-spacing: 2.5px; font-size: 0.72rem; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+
+    /* BREADCRUMB */
+    .breadcrumb { padding: 100px 24px 0; }
+    .breadcrumb a { color: var(--muted); font-size: 0.88rem; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    /* HERO */
+    .cs-hero { padding: 40px 24px 64px; }
+    .cs-hero .section-label { margin-bottom: 16px; }
+    .cs-hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
+    .cs-hero p { color: var(--muted); font-size: 1.1rem; max-width: 640px; margin-bottom: 40px; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; }
+    .cs-meta-item { font-size: 0.84rem; color: var(--muted); }
+    .cs-meta-item strong { color: var(--text); display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+
+    /* STATS */
+    .cs-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 0; }
+    .cs-stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 24px; text-align: center;
+    }
+    .cs-stat-num { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+    .cs-stat-num span { color: var(--accent); }
+    .cs-stat-label { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+
+    /* CONTENT SECTIONS */
+    .cs-section { padding: 64px 24px; border-top: 1px solid var(--border); }
+    .cs-section.alt { background: var(--bg2); }
+    .cs-section h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .cs-section p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 16px; }
+    .cs-section p:last-child { margin-bottom: 0; }
+
+    .feature-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .feature-item { display: flex; gap: 14px; align-items: flex-start; }
+    .feature-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+    .feature-item p { margin: 0; }
+    .feature-item strong { color: var(--text); }
+
+    .tech-card {
+      background: var(--card); border: 1px solid rgba(124,92,252,0.25);
+      border-radius: var(--radius); padding: 28px; margin-top: 24px;
+    }
+    .tech-card h3 { font-size: 0.88rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+    .tech-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tech-tag { background: rgba(124,92,252,0.08); border: 1px solid rgba(124,92,252,0.18); color: #b0a0ff; padding: 4px 13px; border-radius: 999px; font-size: 0.78rem; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 8px; }
+    .tl-item { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
+    .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 16px; top: 36px; bottom: 0; width: 1px; background: var(--border); }
+    .tl-num { width: 33px; height: 33px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0; }
+    .tl-content strong { font-size: 0.95rem; display: block; margin-bottom: 4px; }
+    .tl-content p { font-size: 0.88rem; margin: 0; }
+
+    /* CTA */
+    .cta-section {
+      padding: 80px 24px; text-align: center;
+      background: linear-gradient(160deg, rgba(124,92,252,0.12) 0%, rgba(92,224,252,0.06) 100%);
+      border-top: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: ""; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; max-width: 500px; margin: 0 auto 12px; }
+    .cta-section p { color: var(--muted); font-size: 1rem; max-width: 420px; margin: 0 auto 32px; }
+
+    footer { padding: 28px 24px; text-align: center; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">AI<span>Bros</span>.com</a>
+  <div class="nav-links">
+    <a href="/#services">Services</a>
+    <a href="/#work">Work</a>
+    <a href="/case-studies" class="active">Case Studies</a>
+    <a href="/#about">About</a>
+    <a href="/#faq">FAQ</a>
+  </div>
+  <a href="mailto:teamai@aibrosai.com" class="btn-nav">Get in Touch</a>
+</nav>
+
+<div class="breadcrumb container">
+  <a href="/case-studies">← Case Studies</a>
+</div>
+
+<div class="cs-hero container">
+  <div class="section-label reveal">AI Chatbot</div>
+  <h1 class="reveal reveal-delay-1">Proactive chatbot that captures leads after hours — automatically</h1>
+  <div class="cs-meta reveal reveal-delay-2">
+    <div class="cs-meta-item"><strong>Running on</strong>aibrosai.com</div>
+    <div class="cs-meta-item"><strong>Built</strong>March 2026</div>
+    <div class="cs-meta-item"><strong>Stack</strong>Claude Haiku · Python · Vercel</div>
+  </div>
+  <div class="cs-stats reveal reveal-delay-3">
+    <div class="cs-stat"><div class="cs-stat-num">&lt;2<span>s</span></div><div class="cs-stat-label">response time</div></div>
+    <div class="cs-stat"><div class="cs-stat-num">$5<span>/mo</span></div><div class="cs-stat-label">to run</div></div>
+    <div class="cs-stat"><div class="cs-stat-num">24<span>/7</span></div><div class="cs-stat-label">online</div></div>
+    <div class="cs-stat"><div class="cs-stat-num">0</div><div class="cs-stat-label">leads missed after hours</div></div>
+  </div>
+</div>
+
+<div class="cs-section container reveal">
+  <h2>The problem</h2>
+  <p>Small businesses lose leads after 6 PM. A visitor with a real question finds the contact form, doesn't fill it out, leaves. Every after-hours visitor who doesn't convert is a lead the team never even knew existed — no name, no number, no way to follow up.</p>
+  <p>A contact form alone doesn't work. It asks for effort before giving any value. Most visitors don't fill it out. They need to feel the conversation is already happening before they commit to starting it.</p>
+</div>
+
+<div class="cs-section alt reveal">
+  <div class="container">
+    <h2>What we built</h2>
+    <p>A proactive chatbot with a deliberate 3-step opening sequence — designed to intercept visitors before they decide to leave, not after.</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-num">27s</div>
+        <div class="tl-content">
+          <strong>Chat button starts pulsing</strong>
+          <p style="color:var(--muted);font-size:0.88rem">Subtle ring animation draws the eye without being aggressive. Visitor is still reading.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">30s</div>
+        <div class="tl-content">
+          <strong>Teaser bubble appears</strong>
+          <p style="color:var(--muted);font-size:0.88rem">"Quick question 👋 — does your business lose leads after hours?" One line, low commitment, easy to dismiss.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">37s</div>
+        <div class="tl-content">
+          <strong>Chat auto-opens (if not yet interacted)</strong>
+          <p style="color:var(--muted);font-size:0.88rem">Full chat opens with a proactive opener and 4 quick-reply buttons. One tap to start — no typing required.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 32px;">
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p><strong>Lead capture flow:</strong> captures name → phone → best time to call in 3 conversational messages</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p><strong>Instant email notification:</strong> full transcript sent to teamai@aibrosai.com the moment a lead is captured</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p><strong>Guardrails baked in:</strong> never quotes pricing, never names competitors, max 2–3 sentences per reply, one question at a time</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot"></div>
+          <p><strong>Fallback-first:</strong> if the API fails, the widget still shows and directs to email — never a broken experience</p>
+        </div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <h3>Tech stack</h3>
+      <div class="tech-row">
+        <span class="tech-tag">Claude Haiku 4.5</span>
+        <span class="tech-tag">Python (urllib — no SDK)</span>
+        <span class="tech-tag">Vercel Serverless</span>
+        <span class="tech-tag">~80 lines backend</span>
+        <span class="tech-tag">Vanilla JS frontend</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cs-section container reveal">
+  <h2>Result</h2>
+  <p>Live and capturing leads on aibrosai.com. Average response time under 2 seconds. Monthly API cost under $5.</p>
+  <p>The chatbot pattern is portable — replace the system prompt with your business context, update the lead-capture questions, and the same codebase works on any site. A real estate agency, a dental practice, a law firm — same 80 lines of Python, different prompt.</p>
+  <p>For businesses that deal with after-hours visitors, this handles 5–10 hours of customer messaging per week that owners previously did manually the next morning — often too late to convert.</p>
+</div>
+
+<div class="cta-section">
+  <div class="section-label reveal">Get Started</div>
+  <h2 class="reveal">Want this on your site?</h2>
+  <p class="reveal">Start with the $500 AI Workflow Audit — we map the 3 highest-ROI places AI fits in your business, and a chatbot is almost always one of them.</p>
+  <a href="mailto:teamai@aibrosai.com?subject=Book%20%24500%20AI%20Workflow%20Audit" class="btn btn-primary reveal">Book the $500 Audit →</a>
+</div>
+
+<footer>
+  <p>© 2026 AIBros.com &nbsp;·&nbsp; <a href="mailto:teamai@aibrosai.com">teamai@aibrosai.com</a> &nbsp;·&nbsp; Built with AI, by humans who use it daily.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

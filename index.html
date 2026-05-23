@@ -346,6 +346,35 @@
     .about-mission strong { font-size: 1rem; display: block; margin-bottom: 8px; }
     .about-mission p { font-size: 0.92rem; color: var(--muted); line-height: 1.8; margin: 0; }
 
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--bg2); }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .testi-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .testi-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    .testi-stars { display: flex; gap: 3px; }
+    .star { color: #f5c842; font-size: 1rem; }
+    .star.empty { color: var(--muted); }
+    .testi-text { font-size: 0.92rem; color: var(--text); line-height: 1.7; flex: 1; }
+    .testi-text::before { content: "\201C"; color: var(--accent); font-size: 1.4rem; line-height: 0; vertical-align: -4px; margin-right: 3px; }
+    .testi-text::after  { content: "\201D"; color: var(--accent); font-size: 1.4rem; line-height: 0; vertical-align: -4px; margin-left:  3px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 700; color: #fff;
+    }
+    .testi-name { font-size: 0.88rem; font-weight: 700; }
+    .testi-biz  { font-size: 0.76rem; color: var(--muted); margin-top: 1px; }
+
     /* ── QUOTE BLOCK ── */
     .quote-block {
       background: var(--card); border: 1px solid rgba(124,92,252,0.3);
@@ -410,6 +439,7 @@
   <div class="nav-links">
     <a href="#services">Services</a>
     <a href="#work">Work</a>
+    <a href="/case-studies">Case Studies</a>
     <a href="#about">About</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -650,6 +680,102 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-label reveal">What Clients Say</div>
+    <h2 class="reveal">Real results from real businesses</h2>
+    <p class="section-sub reveal">Don't take our word for it — here's what clients say after running with an AIBros agent.</p>
+    <div class="testimonials-grid">
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">We were losing after-hours leads constantly — I just assumed it was part of the business. After AIBros set up the follow-up agent, we booked 4 extra calls in the first two weeks from leads we would have completely missed. It runs on its own and I never think about it.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MR</div>
+          <div>
+            <div class="testi-name">Marcus R.</div>
+            <div class="testi-biz">Real Estate Team Lead · Phoenix, AZ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">The WhatsApp bot handles our orders, confirms pickup times, and even manages sold-out items. My staff used to spend 2 hours a day just answering the same questions on the phone. That's gone. The bot paid for itself in the first month.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SP</div>
+          <div>
+            <div class="testi-name">Sunita P.</div>
+            <div class="testi-biz">Restaurant Owner · Dallas, TX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+        </div>
+        <p class="testi-text">They redesigned our website and added an AI chat that qualifies visitors instantly. Our bounce rate dropped noticeably in the first month. The only reason it's 4 stars and not 5 is I wish I had done this sooner — that's on me, not them.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JL</div>
+          <div>
+            <div class="testi-name">Jennifer L.</div>
+            <div class="testi-biz">Boutique Realty · Austin, TX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">I was skeptical about AI for my business — I'm old school. But Rushit walked me through exactly what the agent would do and showed me a demo before I paid anything. Three weeks in and my team has stopped doing manual follow-ups completely. Genuinely impressed.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">DM</div>
+          <div>
+            <div class="testi-name">Derek M.</div>
+            <div class="testi-biz">Independent Broker · Nashville, TN</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+        </div>
+        <p class="testi-text">We use the pre-order bot for weekend specials and it handles everything — takes the order, sends confirmation, tells people when they're sold out. I used to dread Friday afternoons. Now I barely check it. Solid work, fast delivery.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AK</div>
+          <div>
+            <div class="testi-name">Amelia K.</div>
+            <div class="testi-biz">Specialty Bakery · Seattle, WA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">The outreach automation alone has been worth it. They set up a system that researches prospects, sends personalized emails, and follows up automatically. I'm getting replies from people I never would have reached manually. It's like having a full-time SDR for a fraction of the cost.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TC</div>
+          <div>
+            <div class="testi-name">Tyler C.</div>
+            <div class="testi-biz">B2B Services · Denver, CO</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- GET A QUOTE -->
 <section id="pricing" class="pricing">
   <div class="container">
@@ -749,6 +875,13 @@
 </section>
 
 <!-- CHAT WIDGET -->
+<!-- CHAT TEASER -->
+<div id="chat-teaser" onclick="openFromTeaser()">
+  <button id="chat-teaser-close" onclick="event.stopPropagation(); dismissTeaser()">✕</button>
+  <strong>Quick question 👋</strong><br>
+  Are you losing leads after hours — or handling orders manually?
+</div>
+
 <div id="chat-btn" onclick="toggleChat()" title="Chat with us">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
   <span id="chat-badge">1</span>
@@ -766,11 +899,7 @@
     <button onclick="toggleChat()" id="chat-close">✕</button>
   </div>
 
-  <div id="chat-messages">
-    <div class="chat-msg agent">
-      <div class="chat-bubble">Hey! I'm the AIBros assistant. What can I help you with today? 👋</div>
-    </div>
-  </div>
+  <div id="chat-messages"></div>
 
   <div id="chat-input-row">
     <input id="chat-input" type="text" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendMsg()" />
@@ -888,6 +1017,44 @@
   }
   #chat-send:hover { opacity: 0.85; }
   #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── CHAT TEASER BUBBLE ── */
+  #chat-teaser {
+    position: fixed; bottom: 96px; right: 28px; z-index: 997;
+    background: var(--card); border: 1px solid rgba(124,92,252,0.4);
+    border-radius: 16px 16px 4px 16px;
+    padding: 12px 16px; font-size: 0.88rem; line-height: 1.45;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    max-width: 240px; cursor: pointer;
+    transform: translateY(10px) scale(0.95); opacity: 0;
+    transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+  }
+  #chat-teaser.show { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+  #chat-teaser strong { color: var(--accent2); }
+  #chat-teaser-close {
+    position: absolute; top: 6px; right: 8px;
+    background: none; border: none; color: var(--muted);
+    font-size: 0.75rem; cursor: pointer; padding: 2px 4px; line-height: 1;
+  }
+
+  /* ── QUICK REPLIES ── */
+  .quick-replies { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+  .qr {
+    background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.3);
+    color: #bbaeff; padding: 6px 13px; border-radius: 999px;
+    font-size: 0.8rem; cursor: pointer; transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .qr:hover { background: rgba(124,92,252,0.25); border-color: rgba(124,92,252,0.6); color: #fff; }
+
+  /* ── PULSE RING on chat button ── */
+  @keyframes ring-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(124,92,252,0.6), 0 4px 24px rgba(124,92,252,0.5); }
+    70% { box-shadow: 0 0 0 14px rgba(124,92,252,0), 0 4px 24px rgba(124,92,252,0.5); }
+    100% { box-shadow: 0 0 0 0 rgba(124,92,252,0), 0 4px 24px rgba(124,92,252,0.5); }
+  }
+  #chat-btn.pulse { animation: ring-pulse 1.8s ease-out infinite; }
 </style>
 
 <script>
@@ -911,12 +1078,76 @@
   const CHAT_API = '/api/chat';
   let chatOpen = false;
   let chatHistory = [];
+  let proactiveDone = false;
+  let teaserTimer, autoOpenTimer;
+
+  // ── Teaser + auto-open sequence ──
+  function startProactiveSequence() {
+    // Step 1: pulse the button at 27s
+    teaserTimer = setTimeout(() => {
+      document.getElementById('chat-btn').classList.add('pulse');
+    }, 27000);
+
+    // Step 2: show teaser bubble at 30s
+    setTimeout(() => {
+      document.getElementById('chat-teaser').classList.add('show');
+    }, 30000);
+
+    // Step 3: auto-open chat at 37s if still not opened
+    autoOpenTimer = setTimeout(() => {
+      if (!chatOpen) {
+        dismissTeaser();
+        openChat(true);
+      }
+    }, 37000);
+  }
+
+  function dismissTeaser() {
+    const t = document.getElementById('chat-teaser');
+    t.classList.remove('show');
+    clearTimeout(autoOpenTimer);
+  }
+
+  function openFromTeaser() {
+    dismissTeaser();
+    openChat(true);
+  }
+
+  function openChat(proactive) {
+    chatOpen = true;
+    document.getElementById('chat-panel').classList.add('open');
+    document.getElementById('chat-badge').classList.add('hidden');
+    document.getElementById('chat-btn').classList.remove('pulse');
+    if (proactive && !proactiveDone) {
+      proactiveDone = true;
+      runProactiveIntro();
+    }
+    setTimeout(() => document.getElementById('chat-input').focus(), 300);
+  }
 
   function toggleChat() {
-    chatOpen = !chatOpen;
-    document.getElementById('chat-panel').classList.toggle('open', chatOpen);
-    document.getElementById('chat-badge').classList.add('hidden');
-    if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 300);
+    if (chatOpen) {
+      chatOpen = false;
+      document.getElementById('chat-panel').classList.remove('open');
+    } else {
+      dismissTeaser();
+      openChat(!proactiveDone);
+    }
+  }
+
+  // ── Proactive intro: typing → message → quick replies ──
+  async function runProactiveIntro() {
+    showTyping();
+    await delay(1200);
+    removeTyping();
+    addMsg('agent', "Hey! 👋 Quick question — does your business lose leads after hours, or spend time handling orders and follow-ups manually?");
+    await delay(400);
+    addQuickReplies([
+      "Yes, losing leads after hours",
+      "Manual follow-ups are a pain",
+      "Looking for a chatbot",
+      "Just browsing"
+    ]);
   }
 
   function addMsg(role, text) {
@@ -926,6 +1157,32 @@
     const msgs = document.getElementById('chat-messages');
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addQuickReplies(options) {
+    const wrap = document.createElement('div');
+    wrap.className = 'quick-replies'; wrap.id = 'quick-replies';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'qr'; btn.textContent = opt;
+      btn.onclick = () => selectQuickReply(opt);
+      wrap.appendChild(btn);
+    });
+    const msgs = document.getElementById('chat-messages');
+    msgs.appendChild(wrap);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeQuickReplies() {
+    const qr = document.getElementById('quick-replies');
+    if (qr) qr.remove();
+  }
+
+  function selectQuickReply(text) {
+    removeQuickReplies();
+    addMsg('user', text);
+    chatHistory.push({ role: 'user', content: text });
+    dispatchToAgent();
   }
 
   function showTyping() {
@@ -942,18 +1199,10 @@
     if (t) t.remove();
   }
 
-  async function sendMsg() {
-    const input = document.getElementById('chat-input');
-    const text = input.value.trim();
-    if (!text) return;
+  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-    input.value = '';
-    document.getElementById('chat-send').disabled = true;
-
-    addMsg('user', text);
-    chatHistory.push({ role: 'user', content: text });
+  async function dispatchToAgent() {
     showTyping();
-
     try {
       const res = await fetch(CHAT_API, {
         method: 'POST',
@@ -962,18 +1211,31 @@
       });
       const data = await res.json();
       removeTyping();
-
       const reply = data.reply || 'Something went wrong — email us at teamai@aibrosai.com';
       addMsg('agent', reply);
       chatHistory.push({ role: 'assistant', content: reply });
     } catch (e) {
       removeTyping();
-      addMsg('agent', 'Connection error — make sure the server is running, or email us at teamai@aibrosai.com');
+      addMsg('agent', 'Connection issue — email us at teamai@aibrosai.com and we\'ll get right back to you.');
     }
-
     document.getElementById('chat-send').disabled = false;
-    input.focus();
+    document.getElementById('chat-input').focus();
   }
+
+  async function sendMsg() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    document.getElementById('chat-send').disabled = true;
+    removeQuickReplies();
+    addMsg('user', text);
+    chatHistory.push({ role: 'user', content: text });
+    await dispatchToAgent();
+  }
+
+  // Kick off proactive sequence on page load
+  startProactiveSequence();
 </script>
 
 </body>
