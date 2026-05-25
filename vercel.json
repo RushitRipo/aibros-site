@@ -3,6 +3,7 @@
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "case-studies/*.html", "use": "@vercel/static" },
+    { "src": "pricing/managed.html", "use": "@vercel/static" },
     { "src": "api/chat.py", "use": "@vercel/python" }
   ],
   "routes": [
@@ -11,6 +12,7 @@
     { "src": "/case-studies/cold-outreach-pipeline", "dest": "/case-studies/cold-outreach-pipeline.html" },
     { "src": "/case-studies/reddit-lead-monitor", "dest": "/case-studies/reddit-lead-monitor.html" },
     { "src": "/case-studies", "dest": "/case-studies/index.html" },
+    { "src": "/pricing/managed", "dest": "/pricing/managed.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
